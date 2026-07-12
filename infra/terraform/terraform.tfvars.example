@@ -1,0 +1,2 @@
+gcp_project_id = "seu-projeto-gcp-aqui"
+gcp_region     = "southamerica-east1"

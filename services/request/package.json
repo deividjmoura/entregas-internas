@@ -1,0 +1,31 @@
+{
+  "name": "@entregas/request-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist",
+    "prisma:generate": "prisma generate --schema=src/infrastructure/prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema=src/infrastructure/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@entregas/shared": "workspace:*",
+    "@google-cloud/pubsub": "^4.5.0",
+    "@prisma/client": "^5.16.0",
+    "fastify": "^4.28.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "prisma": "^5.16.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

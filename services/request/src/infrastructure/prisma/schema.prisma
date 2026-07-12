@@ -1,0 +1,52 @@
+// Schema Prisma - request-service
+// pgvector habilitado via extensão (usado a partir da Fase 3 para embeddings)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoEntrega {
+  COMPONENTE_FISICO
+  CIRCUITO_ELETRONICO
+}
+
+enum NivelUrgencia {
+  BAIXA
+  MEDIA
+  CRITICA
+}
+
+enum StatusSolicitacao {
+  PENDENTE
+  EM_CURSO
+  ENTREGUE
+  CANCELADA
+}
+
+model SolicitacaoModel {
+  id             String            @id @default(uuid())
+  tipo           TipoEntrega
+  descricaoItem  String
+  localDestino   String
+  urgencia       NivelUrgencia
+  status         StatusSolicitacao @default(PENDENTE)
+  solicitanteId  String
+  entregadorId   String?
+
+  // Campo de controle de versão para o lock otimista (Fase 2).
+  // Toda atualização via atualizarComLockOtimista incrementa esse valor
+  // e a query só aplica o UPDATE se a versão em banco == versão esperada.
+  versao         Int               @default(1)
+
+  criadaEm       DateTime          @default(now())
+  atualizadaEm   DateTime          @updatedAt
+
+  @@index([status, urgencia])
+  @@index([solicitanteId])
+  @@map("solicitacoes")
+}
